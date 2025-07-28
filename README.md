@@ -81,7 +81,7 @@ npm run test:api
 ```json
 "scripts": {
   "test:ui": "npx cypress run --spec cypress/e2e/LoginAndCRUD.cy.js",
-  "test:api": "newman run Schesti.postman_collection.json -e Schesti.postman_environment.json -r cli,html --reporter-html-export reports/api-report.html"
+  "test:api": "newman run Schesti.postman_collection.json -e Schesti.postman_environment.json"
 }
 ```
 
