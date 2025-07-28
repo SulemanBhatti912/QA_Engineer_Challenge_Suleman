@@ -18,7 +18,7 @@ This project demonstrates automation testing on a sample **React frontend** and 
 
 > Requires **Node.js v23.5.0 or Latest**
 
-🔹 Option 2: Install from Node.js Official Website
+🔹 Install from Node.js Official Website
 
 ``` bash
 Go to: https://nodejs.org/en/download
