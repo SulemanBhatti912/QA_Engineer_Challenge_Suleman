@@ -1,4 +1,4 @@
-# 🌐 Full Stack Automation – UI + API
+# 🌐 Full Stack Automation – UI + API + CI pipeline
 
 This project demonstrates automation testing on a sample **React frontend** and **Node.js backend** using Cypress (UI) and Postman/Newman (API). It includes a full CI setup via GitHub Actions.
 
