@@ -1,0 +1,48 @@
+name: Run Cypress UI and Postman API Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js 23.5.0
+        uses: actions/setup-node@v3
+        with:
+          node-version: 23.5.0
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Cypress UI Tests
+        run: npm run test:ui
+        continue-on-error: true
+
+      - name: Run Newman API Tests
+        run: npm run test:api
+        continue-on-error: true
+
+      - name: Upload Cypress Artifacts (videos, screenshots)
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-artifacts
+          path: |
+            cypress/videos
+            cypress/screenshots
+
+      - name: Upload Newman Reports (if exists)
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: newman-report
+          path: |
+            reports/

@@ -1,0 +1,1157 @@
+{
+	"info": {
+		"_postman_id": "2b37c292-6991-4d72-b5fc-edc83cb631f1",
+		"name": "Schesti",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20504411",
+		"_collection_link": "https://gold-desert-255725.postman.co/workspace/REM-WASTE-QA-Assessment~81a17278-d164-4e69-a157-411ac4425eed/collection/20504411-2b37c292-6991-4d72-b5fc-edc83cb631f1?action=share&source=collection_link&creator=20504411"
+	},
+	"item": [
+		{
+			"name": "Positive Cases",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"pm.expect(jsonData).to.have.property(\"token\");",
+									"pm.environment.set(\"token\", jsonData.token);",
+									"",
+									"pm.test(\"Status code is 200\", () => {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response contains token\", () => {",
+									"  const json = pm.response.json();",
+									"  pm.expect(json.token).to.be.a(\"string\").and.not.empty;",
+									"});",
+									"",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json, text/plain, */*"
+							},
+							{
+								"key": "accept-language",
+								"value": "en-US,en;q=0.9"
+							},
+							{
+								"key": "content-type",
+								"value": "application/json"
+							},
+							{
+								"key": "origin",
+								"value": "https://schesti.com"
+							},
+							{
+								"key": "priority",
+								"value": "u=1, i"
+							},
+							{
+								"key": "referer",
+								"value": "https://schesti.com/"
+							},
+							{
+								"key": "sec-ch-ua",
+								"value": "\"Not)A;Brand\";v=\"8\", \"Chromium\";v=\"138\", \"Google Chrome\";v=\"138\""
+							},
+							{
+								"key": "sec-ch-ua-mobile",
+								"value": "?0"
+							},
+							{
+								"key": "sec-ch-ua-platform",
+								"value": "\"macOS\""
+							},
+							{
+								"key": "sec-fetch-dest",
+								"value": "empty"
+							},
+							{
+								"key": "sec-fetch-mode",
+								"value": "cors"
+							},
+							{
+								"key": "sec-fetch-site",
+								"value": "same-site"
+							},
+							{
+								"key": "user-agent",
+								"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"sulemmanbhatti360@gmail.com\",\n    \"password\": \"Remwaste@1\",\n    \"remember\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Role",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Role created\", () => {",
+									"pm.response.to.have.status(201);",
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"id\", jsonData.data._id);",
+									"pm.environment.set(\"user\",jsonData.data.user);",
+									"});",
+									"",
+									"let Data = pm.response.json().data;",
+									"",
+									"pm.test(\"Role name is correct\", () => {",
+									"  pm.expect(Data.name).to.eql(\"Manager\");",
+									"});",
+									"",
+									"pm.test(\"Permissions is an array with at least one value\", () => {",
+									"  pm.expect(Data.permissions).to.be.an(\"array\").that.is.not.empty;",
+									"});",
+									"",
+									"",
+									"pm.test(\"isDeleted is false\", () => {",
+									"  pm.expect(Data.isDeleted).to.be.false;",
+									"});",
+									"",
+									"pm.test(\"Created and updated timestamps exist\", () => {",
+									"  pm.expect(Data.createdAt).to.be.a(\"string\");",
+									"  pm.expect(Data.updatedAt).to.be.a(\"string\");",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json, text/plain, */*"
+							},
+							{
+								"key": "accept-language",
+								"value": "en-US,en;q=0.9"
+							},
+							{
+								"key": "authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODg0YzBlMzk2NzYwZTljODBkZTBmN2MiLCJpYXQiOjE3NTM1MzA3MTEsImV4cCI6MTc4NTA2NjcxMX0.HwHzryFVBIE50ISSynOkewKdQjS78WGnsmTo-xF7YWI"
+							},
+							{
+								"key": "if-none-match",
+								"value": "W/\"3c-motrOxSFSjPiZpfFGJfklT5Ys4U\""
+							},
+							{
+								"key": "origin",
+								"value": "https://schesti.com"
+							},
+							{
+								"key": "priority",
+								"value": "u=1, i"
+							},
+							{
+								"key": "referer",
+								"value": "https://schesti.com/"
+							},
+							{
+								"key": "sec-ch-ua",
+								"value": "\"Not)A;Brand\";v=\"8\", \"Chromium\";v=\"138\", \"Google Chrome\";v=\"138\""
+							},
+							{
+								"key": "sec-ch-ua-mobile",
+								"value": "?0"
+							},
+							{
+								"key": "sec-ch-ua-platform",
+								"value": "\"macOS\""
+							},
+							{
+								"key": "sec-fetch-dest",
+								"value": "empty"
+							},
+							{
+								"key": "sec-fetch-mode",
+								"value": "cors"
+							},
+							{
+								"key": "sec-fetch-site",
+								"value": "same-site"
+							},
+							{
+								"key": "user-agent",
+								"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Manager\",\n    \"permissions\": [\n        \"/networking\"\n    ]\n}\n\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/setting/company-role?module=roles",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"setting",
+								"company-role"
+							],
+							"query": [
+								{
+									"key": "module",
+									"value": "roles"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Role",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const res = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has 'message', 'statusCode', and 'data'\", function () {",
+									"  pm.expect(res).to.have.keys(\"message\", \"statusCode\", \"data\");",
+									"});",
+									"",
+									"pm.test(\"Data is an array of roles\", function () {",
+									"  pm.expect(res.data).to.be.an(\"array\").that.is.not.empty;",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json, text/plain, */*"
+							},
+							{
+								"key": "accept-language",
+								"value": "en-US,en;q=0.9"
+							},
+							{
+								"key": "authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODg0YzBlMzk2NzYwZTljODBkZTBmN2MiLCJpYXQiOjE3NTM1MzA3MTEsImV4cCI6MTc4NTA2NjcxMX0.HwHzryFVBIE50ISSynOkewKdQjS78WGnsmTo-xF7YWI"
+							},
+							{
+								"key": "if-none-match",
+								"value": "W/\"3c-motrOxSFSjPiZpfFGJfklT5Ys4U\""
+							},
+							{
+								"key": "origin",
+								"value": "https://schesti.com"
+							},
+							{
+								"key": "priority",
+								"value": "u=1, i"
+							},
+							{
+								"key": "referer",
+								"value": "https://schesti.com/"
+							},
+							{
+								"key": "sec-ch-ua",
+								"value": "\"Not)A;Brand\";v=\"8\", \"Chromium\";v=\"138\", \"Google Chrome\";v=\"138\""
+							},
+							{
+								"key": "sec-ch-ua-mobile",
+								"value": "?0"
+							},
+							{
+								"key": "sec-ch-ua-platform",
+								"value": "\"macOS\""
+							},
+							{
+								"key": "sec-fetch-dest",
+								"value": "empty"
+							},
+							{
+								"key": "sec-fetch-mode",
+								"value": "cors"
+							},
+							{
+								"key": "sec-fetch-site",
+								"value": "same-site"
+							},
+							{
+								"key": "user-agent",
+								"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/setting/company-role",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"setting",
+								"company-role"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Role",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// let res = pm.response.json();",
+									"// // let Data = res.data;",
+									"",
+									"// pm.test(\"Status code is 200\", () => {",
+									"//   pm.response.to.have.status(200);",
+									"// });",
+									"",
+									"// pm.test(\"Message is 'Request Successfull'\", () => {",
+									"//   pm.expect(res.message).to.eql(\"Request Successfull\");",
+									"// });",
+									"",
+									"// pm.test(\"Data has all required keys\", () => {",
+									"//   pm.expect(res.data).to.have.all.keys(",
+									"//     \"_id\",",
+									"//     \"name\",",
+									"//     \"permissions\",",
+									"//     \"user\",",
+									"//     \"isDeleted\",",
+									"//     \"createdAt\",",
+									"//     \"updatedAt\",",
+									"//     \"__v\"",
+									"//   );",
+									"// });",
+									"",
+									"// pm.test(\"Permissions contains expected Values\", () => {",
+									"//   pm.expect(res.data.permissions).to.include(\"/networking\");",
+									"//   pm.expect(res.data.permissions).to.include(\"/crm\");",
+									"// });",
+									"",
+									"",
+									"// pm.test(\"Timestamps are ISO date strings\", () => {",
+									"//   pm.expect(res.data.createdAt).to.match(/^\\d{4}-\\d{2}-\\d{2}T/);",
+									"//   pm.expect(res.data.updatedAt).to.match(/^\\d{4}-\\d{2}-\\d{2}T/);",
+									"// });",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "authority",
+								"value": "api.schesti.com"
+							},
+							{
+								"key": "method",
+								"value": "PUT",
+								"type": "text"
+							},
+							{
+								"key": "path",
+								"value": "/api/setting/company-role/{{id}}"
+							},
+							{
+								"key": "scheme",
+								"value": "https",
+								"type": "text"
+							},
+							{
+								"key": "accept",
+								"value": "application/json, text/plain, */*",
+								"type": "text"
+							},
+							{
+								"key": "accept-encoding",
+								"value": "gzip, deflate, br, zstd",
+								"type": "text"
+							},
+							{
+								"key": "accept-language",
+								"value": "en-US,en;q=0.9,ur;q=0.8",
+								"type": "text"
+							},
+							{
+								"key": "authorization",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "content-type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \n    \"name\": \"Manager\",\n    \"permissions\": [\n        \"/networking\",\n        \"/crm\"\n    ]\n \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/setting/company-role/{{id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"setting",
+								"company-role",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Role",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const res = pm.response.json();",
+									"const Data = res.data;",
+									"",
+									"pm.test(\"Status code is 200\", () => {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Message confirms success\", () => {",
+									"  pm.expect(res.message).to.eql(\"Request Successfull\");",
+									"});",
+									"",
+									"pm.test(\"Data includes expected keys\", () => {",
+									"  pm.expect(Data).to.have.all.keys(",
+									"    \"_id\",",
+									"    \"name\",",
+									"    \"permissions\",",
+									"    \"user\",",
+									"    \"isDeleted\",",
+									"    \"createdAt\",",
+									"    \"updatedAt\",",
+									"    \"__v\"",
+									"  );",
+									"});",
+									"",
+									"pm.test(\"Role is marked as deleted\", () => {",
+									"  pm.expect(Data.isDeleted).to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Timestamps are valid ISO strings\", () => {",
+									"  pm.expect(Data.updatedAt).to.match(/^\\d{4}-\\d{2}-\\d{2}T/);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json, text/plain, */*"
+							},
+							{
+								"key": "accept-language",
+								"value": "en-US,en;q=0.9"
+							},
+							{
+								"key": "authorization",
+								"value": "{{token}}"
+							},
+							{
+								"key": "origin",
+								"value": "https://schesti.com"
+							},
+							{
+								"key": "priority",
+								"value": "u=1, i"
+							},
+							{
+								"key": "referer",
+								"value": "https://schesti.com/"
+							},
+							{
+								"key": "sec-ch-ua",
+								"value": "\"Not)A;Brand\";v=\"8\", \"Chromium\";v=\"138\", \"Google Chrome\";v=\"138\""
+							},
+							{
+								"key": "sec-ch-ua-mobile",
+								"value": "?0"
+							},
+							{
+								"key": "sec-ch-ua-platform",
+								"value": "\"macOS\""
+							},
+							{
+								"key": "sec-fetch-dest",
+								"value": "empty"
+							},
+							{
+								"key": "sec-fetch-mode",
+								"value": "cors"
+							},
+							{
+								"key": "sec-fetch-site",
+								"value": "same-site"
+							},
+							{
+								"key": "user-agent",
+								"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/setting/company-role/{{id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"setting",
+								"company-role",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Negative Cases Copy",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Login with Invalid Creds\", () => {",
+									"  pm.response.to.have.status(400);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json, text/plain, */*"
+							},
+							{
+								"key": "accept-language",
+								"value": "en-US,en;q=0.9"
+							},
+							{
+								"key": "content-type",
+								"value": "application/json"
+							},
+							{
+								"key": "origin",
+								"value": "https://schesti.com"
+							},
+							{
+								"key": "priority",
+								"value": "u=1, i"
+							},
+							{
+								"key": "referer",
+								"value": "https://schesti.com/"
+							},
+							{
+								"key": "sec-ch-ua",
+								"value": "\"Not)A;Brand\";v=\"8\", \"Chromium\";v=\"138\", \"Google Chrome\";v=\"138\""
+							},
+							{
+								"key": "sec-ch-ua-mobile",
+								"value": "?0"
+							},
+							{
+								"key": "sec-ch-ua-platform",
+								"value": "\"macOS\""
+							},
+							{
+								"key": "sec-fetch-dest",
+								"value": "empty"
+							},
+							{
+								"key": "sec-fetch-mode",
+								"value": "cors"
+							},
+							{
+								"key": "sec-fetch-site",
+								"value": "same-site"
+							},
+							{
+								"key": "user-agent",
+								"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"sulemmanbhatti@gmail.com\",\n    \"password\": \"Remwaste@1\",\n    \"remember\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Role",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Create Role without permissions should fail\", () => {",
+									"  pm.response.to.have.status(400);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json, text/plain, */*"
+							},
+							{
+								"key": "accept-language",
+								"value": "en-US,en;q=0.9"
+							},
+							{
+								"key": "authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODg0YzBlMzk2NzYwZTljODBkZTBmN2MiLCJpYXQiOjE3NTM1MzA3MTEsImV4cCI6MTc4NTA2NjcxMX0.HwHzryFVBIE50ISSynOkewKdQjS78WGnsmTo-xF7YWI"
+							},
+							{
+								"key": "if-none-match",
+								"value": "W/\"3c-motrOxSFSjPiZpfFGJfklT5Ys4U\""
+							},
+							{
+								"key": "origin",
+								"value": "https://schesti.com"
+							},
+							{
+								"key": "priority",
+								"value": "u=1, i"
+							},
+							{
+								"key": "referer",
+								"value": "https://schesti.com/"
+							},
+							{
+								"key": "sec-ch-ua",
+								"value": "\"Not)A;Brand\";v=\"8\", \"Chromium\";v=\"138\", \"Google Chrome\";v=\"138\""
+							},
+							{
+								"key": "sec-ch-ua-mobile",
+								"value": "?0"
+							},
+							{
+								"key": "sec-ch-ua-platform",
+								"value": "\"macOS\""
+							},
+							{
+								"key": "sec-fetch-dest",
+								"value": "empty"
+							},
+							{
+								"key": "sec-fetch-mode",
+								"value": "cors"
+							},
+							{
+								"key": "sec-fetch-site",
+								"value": "same-site"
+							},
+							{
+								"key": "user-agent",
+								"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Manager\"\n   \n}\n\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/setting/company-role?module=roles",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"setting",
+								"company-role"
+							],
+							"query": [
+								{
+									"key": "module",
+									"value": "roles"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Role",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Get Roles without Auth\", () => {",
+									"  pm.response.to.have.status(401);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "jwt",
+							"jwt": [
+								{
+									"key": "algorithm",
+									"value": "HS256",
+									"type": "string"
+								},
+								{
+									"key": "isSecretBase64Encoded",
+									"value": false,
+									"type": "boolean"
+								},
+								{
+									"key": "payload",
+									"value": "{}",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "queryParamKey",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "header",
+									"value": "{}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json, text/plain, */*"
+							},
+							{
+								"key": "accept-language",
+								"value": "en-US,en;q=0.9"
+							},
+							{
+								"key": "authorization",
+								"value": "",
+								"disabled": true
+							},
+							{
+								"key": "if-none-match",
+								"value": "W/\"3c-motrOxSFSjPiZpfFGJfklT5Ys4U\""
+							},
+							{
+								"key": "origin",
+								"value": "https://schesti.com"
+							},
+							{
+								"key": "priority",
+								"value": "u=1, i"
+							},
+							{
+								"key": "referer",
+								"value": "https://schesti.com/"
+							},
+							{
+								"key": "sec-ch-ua",
+								"value": "\"Not)A;Brand\";v=\"8\", \"Chromium\";v=\"138\", \"Google Chrome\";v=\"138\""
+							},
+							{
+								"key": "sec-ch-ua-mobile",
+								"value": "?0"
+							},
+							{
+								"key": "sec-ch-ua-platform",
+								"value": "\"macOS\""
+							},
+							{
+								"key": "sec-fetch-dest",
+								"value": "empty"
+							},
+							{
+								"key": "sec-fetch-mode",
+								"value": "cors"
+							},
+							{
+								"key": "sec-fetch-site",
+								"value": "same-site"
+							},
+							{
+								"key": "user-agent",
+								"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/setting/company-role",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"setting",
+								"company-role"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Role",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Edit without Auth\", () => {",
+									"  pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "authority",
+								"value": "api.schesti.com"
+							},
+							{
+								"key": "method",
+								"value": "PUT",
+								"type": "text"
+							},
+							{
+								"key": "path",
+								"value": "/api/setting/company-role/{{id}}"
+							},
+							{
+								"key": "scheme",
+								"value": "https",
+								"type": "text"
+							},
+							{
+								"key": "accept",
+								"value": "application/json, text/plain, */*",
+								"type": "text"
+							},
+							{
+								"key": "accept-encoding",
+								"value": "gzip, deflate, br, zstd",
+								"type": "text"
+							},
+							{
+								"key": "accept-language",
+								"value": "en-US,en;q=0.9,ur;q=0.8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \n    \"name\": \"Manager\",\n    \"permissions\": [\n        \"/networking\",\n        \"/crm\"\n    ]\n \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/setting/company-role/688670ca99960e9c80de30c9",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"setting",
+								"company-role",
+								"688670ca99960e9c80de30c9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Role",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Delete Role without Auth\", () => {",
+									"  pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json, text/plain, */*"
+							},
+							{
+								"key": "accept-language",
+								"value": "en-US,en;q=0.9"
+							},
+							{
+								"key": "origin",
+								"value": "https://schesti.com"
+							},
+							{
+								"key": "priority",
+								"value": "u=1, i"
+							},
+							{
+								"key": "referer",
+								"value": "https://schesti.com/"
+							},
+							{
+								"key": "sec-ch-ua",
+								"value": "\"Not)A;Brand\";v=\"8\", \"Chromium\";v=\"138\", \"Google Chrome\";v=\"138\""
+							},
+							{
+								"key": "sec-ch-ua-mobile",
+								"value": "?0"
+							},
+							{
+								"key": "sec-ch-ua-platform",
+								"value": "\"macOS\""
+							},
+							{
+								"key": "sec-fetch-dest",
+								"value": "empty"
+							},
+							{
+								"key": "sec-fetch-mode",
+								"value": "cors"
+							},
+							{
+								"key": "sec-fetch-site",
+								"value": "same-site"
+							},
+							{
+								"key": "user-agent",
+								"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/setting/company-role/{{id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"setting",
+								"company-role",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

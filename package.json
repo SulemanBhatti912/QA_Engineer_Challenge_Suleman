@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "test:ui": "npx cypress run --spec cypress/e2e/LoginAndCRUD.cy.js",
+    "test:api": "newman run Schesti.postman_collection.json -e Schesti.postman_environment.json"
+  },
+  "devDependencies": {
+    "cypress": "^14.5.3",
+    "newman": "^6.2.1"
+  }
+}
