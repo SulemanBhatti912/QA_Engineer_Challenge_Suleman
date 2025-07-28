@@ -44,8 +44,8 @@ v23.5.0
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
+git clone https://github.com/SulemanBhatti912/QA_Engineer_Challenge_Suleman.git
+cd QA_Engineer_Challenge_Suleman.git
 ```
 
 ### 2. Install Dependencies
