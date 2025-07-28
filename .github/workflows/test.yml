@@ -32,7 +32,7 @@ jobs:
 
       - name: Upload Cypress Artifacts (videos, screenshots)
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: cypress-artifacts
           path: |
@@ -41,7 +41,7 @@ jobs:
 
       - name: Upload Newman Reports (if exists)
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: newman-report
           path: |
