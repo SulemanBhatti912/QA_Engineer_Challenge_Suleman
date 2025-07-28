@@ -45,7 +45,7 @@ v23.5.0
 
 ```bash
 git clone https://github.com/SulemanBhatti912/QA_Engineer_Challenge_Suleman.git
-cd QA_Engineer_Challenge_Suleman.git
+cd QA_Engineer_Challenge_Suleman
 ```
 
 ### 2. Install Dependencies
