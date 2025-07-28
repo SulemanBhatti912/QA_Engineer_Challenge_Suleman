@@ -36,13 +36,13 @@ jobs:
         with:
           name: cypress-artifacts
           path: |
-            cypress/videos
+            # cypress/videos
             cypress/screenshots
 
-      - name: Upload Newman Reports (if exists)
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: newman-report
-          path: |
-            reports/
+      # - name: Upload Newman Reports (if exists)
+      #   if: always()
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: newman-report
+      #     path: |
+      #       reports/
